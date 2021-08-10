@@ -1,0 +1,5 @@
+package ru.geekbrains.java_core.homework1;
+
+public interface Obstacle {
+    // По сути своей - бесполезный класс, НО он помогает объединить классы RunningTrack и Wall в одну структуру (объекты, относящиеся к одному типу)
+}
