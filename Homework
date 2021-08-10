@@ -1,0 +1,35 @@
+package ru.geekbrains.java_core.homework1;
+
+public class Homework {
+    public static void main(String[] args) {
+
+        //Массив участников
+        Participant[] participants = {
+                new Human(500, 3),
+                new Human(600, 4),
+                new Cat(300, 6),
+                new Cat(200, 7),
+                new Robot(700, 8),
+                new Robot(1000, 10),
+        };
+
+        // Массив препятсвий
+        Obstacle[] obstacles = {
+                new RunningTrack(200),
+                new Wall(3),
+                new RunningTrack(400),
+                new Wall(5),
+                new RunningTrack(800),
+                new Wall(6),
+        };
+
+        for (Participant participant : participants) { // программа проходит весь массив участников
+            for (Obstacle obstacle : obstacles) { // для каждого участника программа прогоняет весь массив препятствий
+                if (!participant.getStatus()) { // проверка статуса участника по преодолению преград
+                    participant.overcomeObstacle(obstacle);
+                }
+            }
+            System.out.print("\n");
+        }
+    }
+}

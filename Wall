@@ -1,0 +1,10 @@
+package ru.geekbrains.java_core.homework1;
+
+public class Wall implements Obstacle{
+    public final int height; // определение поля "высота"
+
+    public Wall(int height) { this.height = height;} // конструктор для задачи "высоты"
+
+    @Override
+    public String toString() {return String.format("стена с высотой: %d", height); } // для печати строки
+}

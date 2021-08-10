@@ -1,0 +1,38 @@
+package ru.geekbrains.java_core.homework1;
+
+public class Human implements Participant {
+    public boolean lost; // Поле "предварительного проигрыша" для реализации логики
+    private final int runLimit;
+    private final int jumpLimit;
+
+    public Human(int runLimit, int jumpLimit) {
+        this.runLimit = runLimit;
+        this.jumpLimit = jumpLimit;
+    }
+
+    @Override
+    public boolean getStatus() {
+        return this.lost;
+    }
+
+    @Override
+    public void run(RunningTrack runningTrack) { // простые условия на сравнение данных
+        if (runningTrack.length <= runLimit) {
+            System.out.printf("Человек успешно преодолел беговую дорожку - %s\n", runningTrack);
+        } else {
+            System.out.printf("Человек завершил попытку неудачей на беговой дорожке - %s\n", runningTrack);
+            lost = true; // подтверждение "предварительного проигрыша"
+        }
+    }
+
+    @Override
+    public void jump(Wall wall) { // подтверждение "предварительного проигрыша"
+        if (wall.height <= jumpLimit) {
+            System.out.printf("Человек успешно преодолел стену - %s\n", wall);
+        } else {
+            System.out.printf("Человек не справился с высотой стены - %s\n", wall);
+            lost = true; // подтверждение "предварительного проигрыша"
+        }
+    }
+
+}
