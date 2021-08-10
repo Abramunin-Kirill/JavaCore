@@ -1,0 +1,13 @@
+package ru.geekbrains.java_core.homework1;
+
+public class RunningTrack implements Obstacle {
+    public final int length; // определение поля "длина" беговой дорожки
+
+    public RunningTrack(int length) { this.length = length; } // конструктор "длины"
+
+    @Override
+    public String toString() {
+        return String.format("беговая дорожка длиной: $d", length); // вывод в печать
+    }
+
+}
