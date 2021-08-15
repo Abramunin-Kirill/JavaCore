@@ -1,0 +1,76 @@
+package ru.geekbrains.java_core.homework3;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+
+/**
+1. Написать метод, который меняет два элемента массива местами (массив может быть любого ссылочного типа);
+
+2. Задача:
+a. Даны классы Fruit, Apple extends Fruit, Orange extends Fruit;
+
+b. Класс Box, в который можно складывать фрукты.
+Коробки условно сортируются по типу фрукта, поэтому в одну коробку нельзя сложить и яблоки, и апельсины;
+
+c. Для хранения фруктов внутри коробки можно использовать ArrayList;
+
+d. Сделать метод getWeight(), который высчитывает вес коробки, зная вес одного фрукта и их количество:
+вес яблока – 1.0f, апельсина – 1.5f (единицы измерения не важны);
+
+e. Внутри класса Box сделать метод compare(), который позволяет сравнить текущую коробку с той,
+которую подадут в compare() в качестве параметра. true – если их массы равны, false в противоположном случае.
+Можно сравнивать коробки с яблоками и апельсинами;
+
+f. Написать метод, который позволяет пересыпать фрукты из текущей коробки в другую.
+Помним про сортировку фруктов: нельзя яблоки высыпать в коробку с апельсинами.
+Соответственно, в текущей коробке фруктов не остается, а в другую перекидываются объекты, которые были в первой;
+
+g. Не забываем про метод добавления фрукта в коробку.
+ **/
+
+
+public class Homework {
+    public static void main(String[] args) {
+
+        // Решение первого задания:
+        Integer array1[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
+        String array2[] = {"Фрукт", "Яблоко", "Апельсин", "Коробка"} ;
+        System.out.println("Выполнение задания № 1 (вариант с числами):");
+        swap(array1,2,7);
+        System.out.println("Выполнение задания № 1 (вариант со словами):");
+        swap(array2,0,2);
+
+        // Решение второго задания:
+        System.out.println("Задание № 2: ");
+        Box<Apple> firstAppleBox = new Box<>(new ArrayList<>(Arrays.asList(new Apple(), new Apple(), new Apple(), new Apple())));
+        Box<Apple> secondAppleBox = new Box<>();
+        Box<Orange> firstOrangeBox = new Box<>(new ArrayList<>(Arrays.asList(new Orange(), new Orange(), new Orange(), new Orange(),new Orange())));
+        Box<Orange> secondOrangeBox = new Box<>();
+
+        System.out.println("До внесения изменений:");
+        System.out.println("Вес первой коробки с яблоками: " + firstAppleBox.getWeight());
+        System.out.println("Вес второй коробки с яблоками: " + secondAppleBox.getWeight());
+        System.out.println("Вес первой коробки с апельсинами: " + firstOrangeBox.getWeight());
+        System.out.println("Вес второй коробки с апельсинами: " + secondOrangeBox.getWeight());
+        System.out.println("\n_______________________________________");
+
+        // Пересыпаем коробки:
+        firstAppleBox.toSecondBox(secondAppleBox);
+        firstOrangeBox.toSecondBox(secondOrangeBox);
+        System.out.println("После внесения изменений:");
+        System.out.println("Вес первой коробки с яблоками: " + firstAppleBox.getWeight());
+        System.out.println("Вес второй коробки с яблоками: " + secondAppleBox.getWeight());
+        System.out.println("Вес первой коробки с апельсинами: " + firstOrangeBox.getWeight());
+        System.out.println("Вес второй коробки с апельсинами: " + secondOrangeBox.getWeight());
+    }
+
+    // Метод для решения первого задания:
+    public static void swap(Object[] array, int first, int second){
+        System.out.println(Arrays.toString(array));
+        Object sw = array[first];
+        array[first]=array[second];
+        array[second]=sw;
+        System.out.println("Результат замены: "+Arrays.toString(array)+"\n_______________________________________");
+    }
+
+}
