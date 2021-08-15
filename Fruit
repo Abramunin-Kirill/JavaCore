@@ -1,0 +1,10 @@
+package ru.geekbrains.java_core.homework3;
+
+public class Fruit {
+    public Float weight; // Задаем поле веса
+
+    public Fruit(Float weight) {
+        this.weight = weight; // Конструктор для веса
+    }
+
+}
