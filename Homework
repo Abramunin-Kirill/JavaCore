@@ -1,0 +1,90 @@
+package ru.geekbrains.java_core.homework4;
+
+/* Задания:
+1.Создать массив с набором слов (10-20 слов, должны встречаться повторяющиеся).
+Найти и вывести список уникальных слов, из которых состоит массив (дубликаты не считаем).
+Посчитать, сколько раз встречается каждое слово.
+
+2.Написать простой класс Телефонный Справочник, который хранит в себе список фамилий и телефонных номеров.
+В этот телефонный справочник с помощью метода add() можно добавлять записи,
+а с помощью метода get() искать номер телефона по фамилии.
+Следует учесть, что под одной фамилией может быть несколько телефонов (в случае однофамильцев),
+тогда при запросе такой фамилии должны выводиться все телефоны.
+ */
+
+import java.util.*;
+
+public class Homework {
+    public static void main(String[] args) {
+        arrayOfWords(); // Задание № 1
+        telephoneDirectory(); // Задание № 2
+    }
+
+    private static void arrayOfWords() {
+        Map<String, Integer> hm = new HashMap<>();
+        String[] words = {"Java", "Jdk", "JAva", "Orange", "JAVA", "JAVA", "Jdk", "Orange", "Java", "Apple", "Java", "Jdk", "Jdk", "Box", "Jdk", "Cat", "Java", "Box", "Box"
+        };
+
+        for (String word : words) {
+            if (hm.containsKey(word))
+                hm.put(word, hm.get(word) + 1);
+            else
+                hm.put(word, 1);
+        }
+        System.out.println("Задание № 1: " + hm);
+    }
+
+    private static void telephoneDirectory() {
+        Directory directory = new Directory();
+        System.out.println("Задание № 2: ");
+
+        // Добавление номеров:
+        directory.add("Балашова", "89116756983");
+        directory.add("Баранов", "89117537062");
+        directory.add("Егорова", "89110299370");
+        directory.add("Иванов", "89113083571");
+        directory.add("Иванов", "89115784628");
+        directory.add("Иванов", "89117207835");
+        directory.add("Магнитская", "89115488291");
+        directory.add("Молотов", "89119084706");
+        directory.add("Сидоров", "89118485768");
+        directory.add("Слесаренко", "89119827276");
+        directory.add("Слесаренко", "89112564470");
+        directory.add("Петров", "89117985049");
+
+// Хотел добавить возможность самому добавлять абонентов в директорию, но пока что не смог разобраться с этим :(
+//        Scanner console = new Scanner(System.in);
+//        System.out.println("Введите новое имя: ");
+//        String surname = console.nextLine();
+//        System.out.println("Введите номер телефона: ");
+//        int phone_number = console.nextInt();
+
+        // Запрос по фамилии:
+        System.out.println("Номера телефонов по фамилии Иванов: " + directory.get("Иванов"));
+        System.out.println("Номера телефонов по фамилии Молотов: " + directory.get("Молотов"));
+        System.out.println("Номера телефонов по фамилии Слесаренко: " + directory.get("Слесаренко"));
+
+    }
+}
+
+class Directory {
+    private final Map<String, List<String>> directory_hm = new HashMap<>();
+
+    // Метод по добавлению новых абонентов в справочник:
+    public void add(String surname, String phone_number) {
+        List<String> phone_number_list;
+        if (directory_hm.containsKey(surname)) {
+            phone_number_list = directory_hm.get(surname);
+        } else {
+            phone_number_list = new ArrayList<>();
+        }
+        phone_number_list.add(phone_number);
+        directory_hm.put(surname, phone_number_list);
+    }
+
+    // Метод по запросу номера телефона по фамилии:
+    public List<String> get(String surname) {
+        return directory_hm.get(surname);
+    }
+
+}
