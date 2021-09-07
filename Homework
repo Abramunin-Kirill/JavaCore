@@ -1,0 +1,77 @@
+package ru.geekbrains.java_core.homework7;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import okhttp3.HttpUrl;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import java.io.IOException;
+
+/**      Задание:
+ *
+        1. Реализовать корректный вывод информации о текущей погоде. Создать класс WeatherResponse
+        и десериализовать ответ сервера.
+        Выводить пользователю только текстовое описание погоды и температуру в градусах Цельсия.
+
+        2. Реализовать корректный выход из программы
+
+        3. Реализовать вывод погоды на следующие 5 дней в формате:
+        В городе CITY на дату DATE ожидается WEATHER_TEXT, температура - TEMPERATURE
+        где CITY, DATE, WEATHER_TEXT и TEMPERATURE - уникальные значения для каждого дня.
+
+        (Приложение в материалах, архив с проектом (weather_app.zip).
+        Открывем в IDE как File -> New -> Project From Existing Sources... находим распакованный проект,
+        прокликиваем OK везде, и когда открывается, либо в правом нижнем углу появляется предложение подгрузить проект
+        как maven проект, либо, если нет, то правой кнопкой мыши кликаем на pom.xml и выбираем Add as Maven Project.
+        После этого все зависимости должны подгрузиться и проект должен работать.)
+ */
+ 
+ 
+ 
+public class Homework {
+    public static final String HOST = "dataservice.accuweather.com";
+    public static final String FORECAST_URL = "forecasts";
+    public static final String DAILY_URL = "daily";
+    public static final String FIVE_DAYS_URL = "5day";
+    public static final String API_VERSION = "V1";
+    public static final String CITY_ID = "295212";
+    public static final String API_KEY = "bISdX4VlvYXioMxSlivywiajXe3qLTms";
+    public static final String LANGUAGE = "ru-ru";
+    public static final String METRIC = "true";
+
+        public static void main(String[] args) throws IOException {
+
+            OkHttpClient client = new OkHttpclient();
+            HttpUrl url = new HttpUrl.Builder()
+                    .scheme("http")
+                    .host(HOST)
+                    .addPathSegment(FORECAST_URL)
+                    .addPathSegment(API_VERSION)
+                    .addPathSegment(DAILY_URL)
+                    .addPathSegment(FIVE_DAYS_URL)
+                    .addPathSegment(CITY_ID)
+                    .addQueryParameter("apikey", API_KEY)
+                    .addQueryParameter("language", LANGUAGE)
+                    .addQueryParameter("metric", METRIC)
+                    .build();
+
+
+            Request request = new Request.Builder()
+                    .url(url)
+                    .build();
+
+            Responce responce = client.newCall(request).execute();
+            ObjectMapper objectMapper = new ObjectMapper();
+            WeatherResponce weatherResponce = objectMapper.readValue(responce.body().byteStream(), WeatherResponse.class);
+
+            for (DailyForecast forecast : weatherResponce.getDailyForecasts()) {
+                System.out.printf(
+                        "Погода в Санкт-Петербурге на %s\n" +
+                                "%s, температура от %.1f до %.1f %s\n\n",
+                        forecast.getDate(),
+                        forecast.getDay().getIconPhrase(),
+                        forecast.getTemperature().getMinimum().getValue(),
+                        forecast.getTemperature().getMaximum().getValue(),
+                        forecast.getTemperature().getMinimum().getUnit());
+        }
+    }
+}
